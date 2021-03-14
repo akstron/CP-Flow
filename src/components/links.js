@@ -13,5 +13,10 @@ export const links = [
         'id': 3,
         'link': '/people',
         'name':'People'
+    },
+    {
+        'id': 4, 
+        'link': '/register',
+        'name': 'Register'
     }
 ]
