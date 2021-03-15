@@ -29,6 +29,8 @@ function RegistrationForm() {
 	const [fileURL, setFileURL] = useState('');
 
 	const onChange = e => {
+		if(e.target.files.length === 0) return;
+
 		setFile(e.target.files[0]);
 		setFileURL(URL.createObjectURL(e.target.files[0]));
 	}
