@@ -1,10 +1,14 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+require('./db/mongoose')
+const registerRouter = require('./routers/register');
 
 const app = express();
 const port = 5000;
 
 app.use(fileUpload());
+app.use(express.json());
+app.use(registerRouter);
 
 app.post('/upload', (req, res) => {
     console.log('Used');
