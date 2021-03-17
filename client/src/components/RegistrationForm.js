@@ -101,23 +101,23 @@ function RegistrationForm() {
 							</Grid>
 							<Grid item conatiner direction="column" sm={12} md={8}>
 								<Grid item xs={12}>
-									<Input label={"Username"} type={"text"} />
+									<Input label={"Username"} type={"text"} py={1}/>
 								</Grid>
-								<Spacing space={1} />
+								
 								<Grid item xs={12}>
-									<Input label={"Full Name"} type={"text"} />
+									<Input label={"Full Name"} type={"text"} py={1}/>
 								</Grid>
-								<Spacing space={1} />
+								
 								<Grid item xs={12}>
-									<Input label={"Email"} type={"text"} />
+									<Input label={"Email"} type={"text"} py={1}/>
 								</Grid>
-								<Spacing space={1} />
+								
 								<Grid item xs={12}>
-									<Input label={"Password"} type={"password"} />
+									<Input label={"Password"} type={"password"} py={1}/>
 								</Grid>
-								<Spacing space={1} />
+								
 								<Grid item xs={12}>
-									<Input label={"Retype password"} type={"password"} />
+									<Input label={"Retype password"} type={"password"} py={1}/>
 								</Grid>
 							</Grid>
 						</Grid>
