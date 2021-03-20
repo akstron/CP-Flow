@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 require('./config/passport')(passport);
-require('./db/mongoose')
+require('./config/mongoose')
 const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
 

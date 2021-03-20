@@ -50,7 +50,6 @@ function RegistrationForm() {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
 
 		const formData = new FormData();
 
@@ -119,7 +118,7 @@ function RegistrationForm() {
 									</Button>
 								</Grid>
 							</Grid>
-							<Grid item conatiner direction="column" sm={12} md={8}>
+							<Grid conatiner item direction="column" sm={12} md={8}>
 								<Grid item xs={12}>
 									<Input label={"Username"} type={"text"} py={1} name={'userName'} value={formFields.userName} handleChange={handleChange}/>
 								</Grid>

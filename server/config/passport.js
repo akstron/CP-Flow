@@ -8,6 +8,8 @@ module.exports = function(passport) {
   passport.use(
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       // Match user
+      console.log(email);
+      console.log(password);
       User.findOne({
         email: email
       }).then(user => {
@@ -15,10 +17,13 @@ module.exports = function(passport) {
           return done(null, false, { message: 'That email is not registered' });
         }
 
+        console.log('password');
+
         // Match password
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) {
+            console.log('match');
             return done(null, user);
           } else {
             return done(null, false, { message: 'Password incorrect' });
