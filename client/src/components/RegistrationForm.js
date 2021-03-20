@@ -54,16 +54,20 @@ function RegistrationForm() {
 
 		const formData = new FormData();
 
-		console.log(file);
-
 		formData.append("file", file);
-		formData.append("formFields", formFields);
+		formData.append("userName", formFields.userName);
+		formData.append("fullName", formFields.fullName);
+		formData.append("email", formFields.email);
+		formData.append("password", formFields.password);
+		formData.append("retypedPassword", formFields.retypedPassword);
 
 		try {
-			const res = await axios.post("/register", formData, {
+			const res = await axios.post("/register", formData,{
+			headers: {
 				"Content-Type": "multipart/form-data",
-			});
+			}});
 
+			console.log('done');
 			console.log(res);
 		} catch (e) {
 			console.log(e);

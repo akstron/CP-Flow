@@ -37,14 +37,14 @@ const userSchema = mongoose.Schema({
 
 /*Passoword hashing is performed in middleware, just before 'save' */
 
-// userSchema.pre('save', async function(next) {
-//     const user = this
+userSchema.pre('save', async function(next) {
+    const user = this
 
-//     if(user.isModified('password')){
-//         user.password = await bcrypt.hash(user.password, 8)
-//     }
-//     next()
-// })
+    if(user.isModified('password')){
+        user.password = await bcrypt.hash(user.password, 8)
+    }
+    next()
+})
 
 const User = mongoose.model('User', userSchema)
 
