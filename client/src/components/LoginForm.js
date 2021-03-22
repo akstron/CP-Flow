@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from 'react-router-dom';
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Input from "./controls/Input";
@@ -8,10 +9,14 @@ import axios from 'axios';
 import Button from '@material-ui/core/Button'
 
 function LoginForm() {
+
 	const [formFields, setFormFields] = useState({
 		email: "",
 		password: "",
 	});
+
+	const [isloggedIn, setIsLoggedIn] = useState(false);
+	const [redirectURL, setRedirectURL] = useState('/something');
 
 	const handleChange = (e) => {
 		const name = e.target.name;
@@ -23,16 +28,30 @@ function LoginForm() {
         e.preventDefault();
 
 		try {
-			const res = await axios.post("/login", 
-			{"email": formFields.email, 
-			"password": formFields.password});
+			const res = await axios.post("/login", {
+				"email": formFields.email, 
+				"password": formFields.password
+			});
 
-			console.log('done');
-			console.log(res);
+			const { status, msg } = res;
+			if(status){
+				setRedirectURL('/');
+				setIsLoggedIn(true);
+			}
+			else {
+				console.log(res);
+			}
+
 		} catch (e) {
 			console.log(e);
 		}
     }
+
+	if(isloggedIn){
+		return (
+			<Redirect to={redirectURL}/>
+		);
+	}
 
 	return (
 		<Box pt={6}>
