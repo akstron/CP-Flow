@@ -9,16 +9,7 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-	large: {
-		width: theme.spacing(15),
-		height: theme.spacing(15),
-	},
-}));
-
 
 const Spacing = (props) => {
 	return (
@@ -29,7 +20,6 @@ const Spacing = (props) => {
 };
 
 function LoginForm() {
-	const classes = useStyles();
 
 	const [formFields, setFormFields] = useState({
 		email: "",
@@ -54,9 +44,10 @@ function LoginForm() {
 				password: formFields.password,
 			});
 
-			const { status, msg } = res;
+			const { status, msg } = res.data;
+			console.log(res.data);
 			if (status) {
-				setRedirectURL("/");
+				setRedirectURL("/profile");
 				setIsLoggedIn(true);
 			} else {
 				console.log(res);

@@ -5,8 +5,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import { links } from "./links";
+import { Icon } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -37,11 +38,11 @@ const Navbar = () => {
 					</Typography>
 					<Grid container justify="space-around">
 						{links.map((linkItem) => {
-							const { id, link, name } = linkItem;
+							const { id, link, icon } = linkItem;
 							return (
 								<Grid item key={id}>
-									<Button className={classes.hover} component={RouterLink} to={link} color="inherit" >
-										{name}
+									<Button className={classes.hover} component={NavLink} to={link} color="inherit" >
+										<Icon className={icon}/>
 									</Button>
 								</Grid>
 							);

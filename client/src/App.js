@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
         <Route path='/about'>
           About
         </Route>
-        <Route path='/people'>
-          People
+        <Route path='/profile'>
+          <Profile/>
         </Route>
         <Route path='/login'>
           <LoginForm/>

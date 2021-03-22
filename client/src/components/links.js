@@ -2,21 +2,25 @@ export const links = [
     {
         'id': 1, 
         'link': '/',
-        'name': 'Home'
+        'name': 'Home',
+        'icon': 'fas fa-home'
     },
     {
         'id': 2,
         'link': '/about',
-        'name': 'About'
+        'name': 'About',
+        'icon': 'fas fa-ban'
     },
     {
         'id': 3,
-        'link': '/people',
-        'name':'People'
+        'link': '/profile',
+        'name':'Profile',
+        'icon': 'fas fa-id-card'
     },
     {
         'id': 4, 
         'link': '/login',
-        'name': 'Login'
+        'name': 'Login',
+        'icon': 'fas fa-sign-in-alt'
     }
 ]

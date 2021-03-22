@@ -1,15 +1,16 @@
 module.exports = {
-    ensureAuthenticated: function(req, res, next) {
+    ensureAuthenticated: (req, res, next) => {
+
+      // console.log(req);
+      console.log(req.isAuthenticated);
+
       if (req.isAuthenticated()) {
         return next();
       }
-    
-      res.redirect('/users/login');
-    },
-    forwardAuthenticated: function(req, res, next) {
-      if (!req.isAuthenticated()) {
-        return next();
-      }
-      res.redirect('/dashboard');      
+
+      res.json({
+        "status": false,
+        "msg": "Not authorized!"
+      })
     }
   };

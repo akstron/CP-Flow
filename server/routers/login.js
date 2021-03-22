@@ -28,7 +28,10 @@ router.post('/login' , (req, res, next) => {
                }); 
             }
 
+            console.log(req.user);
+
           return res.status(202).json({
+                "user": req.user,
                 "status": true,
                 "msg": "Logged in successfully!"              
           })
