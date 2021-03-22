@@ -17,8 +17,11 @@ function App() {
         <Route path='/people'>
           People
         </Route>
-        <Route path='/register'>
+        <Route path='/login'>
           <LoginForm/>
+        </Route>
+        <Route path='/register'>
+          <RegistrationForm/>
         </Route>
       </Router>
   );

@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import Icon from "@material-ui/core/Icon";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	large: {
@@ -36,8 +38,8 @@ function RegistrationForm() {
 	});
 
 	const handleChange = (e) => {
-		if(e.target.files){
-			if(e.target.files.length > 0){
+		if (e.target.files) {
+			if (e.target.files.length > 0) {
 				setFile(() => e.target.files[0]);
 				setFileURL(URL.createObjectURL(e.target.files[0]));
 			}
@@ -46,7 +48,7 @@ function RegistrationForm() {
 		const name = e.target.name;
 		const value = e.target.value;
 		setFormFields({ ...formFields, [name]: value });
-	  };
+	};
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -61,12 +63,13 @@ function RegistrationForm() {
 		formData.append("retypedPassword", formFields.retypedPassword);
 
 		try {
-			const res = await axios.post("/register", formData,{
-			headers: {
-				"Content-Type": "multipart/form-data",
-			}});
+			const res = await axios.post("/register", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
 
-			console.log('done');
+			console.log("done");
 			console.log(res);
 		} catch (e) {
 			console.log(e);
@@ -79,60 +82,106 @@ function RegistrationForm() {
 				<Grid item xs={3} />
 				<Grid item xs={6}>
 					<Box py={2} px={2} border={1} borderRadius={16}>
-						<Grid container component="form" onSubmit={onSubmit}>
-							<Grid
-								item
-								container
-								sm={12}
-								md={4}
-								direction="column"
-								justify="center"
-								alignItems="center"
-							>
-								<Grid item>
-									<input
-										accept="image/*"
-										className={classes.input}
-										style={{ display: "none" }}
-										id="raised-button-file"
-										type="file"
-										hidden
-										onChange={handleChange}
-									/>
-									<label htmlFor="raised-button-file">
-										<Button component="span">
-											<Avatar
-												className={classes.large}
-												type="file"
-												src={fileURL}
-											>
-												A
-											</Avatar>
-										</Button>
-									</label>
-								</Grid>
-								<Spacing space={3} />
-								<Grid item>
-									<Button variant="contained" color="primary" type="submit">
-										Submit
-									</Button>
-								</Grid>
+						<Grid container direction="column" alignItems="center">
+							<Grid item>
+								<Icon className="fas fa-clipboard-check" fontSize="large"
+								style={{color: 'blue', fontSize: 60}} />
 							</Grid>
-							<Grid conatiner item direction="column" sm={12} md={8}>
-								<Grid item xs={12}>
-									<Input label={"Username"} type={"text"} py={1} name={'userName'} value={formFields.userName} handleChange={handleChange}/>
+							<Grid item>
+								<Typography variant="h4" gutterBottom>
+									Register
+								</Typography>
+							</Grid>
+							<Grid container item component="form" onSubmit={onSubmit}>
+								<Grid
+									item
+									container
+									sm={12}
+									md={4}
+									direction="column"
+									justify="center"
+									alignItems="center"
+								>
+									<Grid item>
+										<input
+											accept="image/*"
+											className={classes.input}
+											style={{ display: "none" }}
+											id="raised-button-file"
+											type="file"
+											hidden
+											onChange={handleChange}
+										/>
+										<label htmlFor="raised-button-file">
+											<Button component="span">
+												<Avatar
+													className={classes.large}
+													type="file"
+													src={fileURL}
+												>
+													A
+												</Avatar>
+											</Button>
+										</label>
+									</Grid>
+									<Spacing space={3} />
+									<Grid item>
+										<Button variant="contained" color="primary" type="submit">
+											Submit
+										</Button>
+									</Grid>
 								</Grid>
-								<Grid item xs={12}>
-									<Input label={"Full Name"} type={"text"} py={1} name={'fullName'} value={formFields.fullName} handleChange={handleChange}/>
-								</Grid>
-								<Grid item xs={12}>
-									<Input label={"Email"} type={"text"} py={1} name={'email'} value={formFields.email} handleChange={handleChange}/>
-								</Grid>
-								<Grid item xs={12}>
-									<Input label={"Password"} type={"password"} py={1} name={'password'} value={formFields.password} handleChange={handleChange}/>
-								</Grid>
-								<Grid item xs={12}>
-									<Input label={"Retype password"} type={"password"} py={1} name={'retypedPassword'} value={formFields.retypedPassword} handleChange={handleChange}/>
+								<Grid container item direction="column" sm={12} md={8}>
+									<Grid item xs={12}>
+										<Input
+											label={"Username"}
+											type={"text"}
+											py={1}
+											name={"userName"}
+											value={formFields.userName}
+											handleChange={handleChange}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<Input
+											label={"Full Name"}
+											type={"text"}
+											py={1}
+											name={"fullName"}
+											value={formFields.fullName}
+											handleChange={handleChange}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<Input
+											label={"Email"}
+											type={"text"}
+											py={1}
+											name={"email"}
+											value={formFields.email}
+											handleChange={handleChange}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<Input
+											label={"Password"}
+											type={"password"}
+											py={1}
+											name={"password"}
+											value={formFields.password}
+											handleChange={handleChange}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<Input
+											label={"Retype password"}
+											type={"password"}
+											py={1}
+											name={"retypedPassword"}
+											value={formFields.retypedPassword}
+											handleChange={handleChange}
+										/>
+									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
