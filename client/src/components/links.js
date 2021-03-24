@@ -7,8 +7,8 @@ export const links = [
     },
     {
         'id': 2,
-        'link': '/about',
-        'name': 'About',
+        'link': '/ask',
+        'name': 'ask',
         'icon': 'fas fa-ban'
     },
     {

@@ -12,8 +12,8 @@ function App() {
       <Route exact path='/'>
           At home
         </Route>
-        <Route path='/about'>
-          About
+        <Route path='/ask'>
+          Ask
         </Route>
         <Route path='/profile'>
           <Profile/>
