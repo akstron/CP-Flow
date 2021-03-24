@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
+import AskForm from './components/AskForm';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           At home
         </Route>
         <Route path='/ask'>
-          Ask
+          <AskForm/>
         </Route>
         <Route path='/profile'>
           <Profile/>

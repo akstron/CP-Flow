@@ -43,7 +43,7 @@ router.post('/register', upload, async (req, res) => {
             const user = new User({
                 userName, fullName, email, password
             })
-            console.log(req.body);
+           
             await user.save();
             console.log('Saved');
             res.status(201).json({

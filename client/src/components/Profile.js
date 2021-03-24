@@ -7,13 +7,17 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        axios.post('/profile')
+        axios.get('user/profile')
         .then((res) => {
             console.log(res);
             console.log(res.data.status);
             if(res.data.status) setIsLoading(() => false);
         }).catch(e => console.log(e))
 
+        axios.get('user/questions/605b8b1444d256358c7fff66')
+        .then((res) => {
+            console.log(res);
+        }).catch(e => console.log(e))
     }, [])
 
     if(isLoading){

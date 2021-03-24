@@ -9,7 +9,7 @@ export const links = [
         'id': 2,
         'link': '/ask',
         'name': 'ask',
-        'icon': 'fas fa-ban'
+        'icon': 'fas fa-question'
     },
     {
         'id': 3,
