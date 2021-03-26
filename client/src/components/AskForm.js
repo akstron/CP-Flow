@@ -46,6 +46,7 @@ const AskForm = () => {
 				value={question}
 				onChange={handleChange}
 				autoFocus
+				placeholder={'Write your question here...'}
 			/>
 			<br />
 			<br />

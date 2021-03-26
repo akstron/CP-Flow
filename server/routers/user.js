@@ -34,17 +34,16 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
     });
 })
 
-router.get('/questions/:id', ensureAuthenticated, async (req, res) => {
+router.get('/question/:questionId', /*ensureAuthenticated,*/ async (req, res) => {
 
     try{
-        const question = await Question.findById(req.params.id);
+        const question = await Question.findById(req.params.questionId);
 
         await question.populate({
             path: 'userId'
         }).execPopulate();
-        console.log(question);
-    
-        res.send(question);
+
+        res.json({question: question});
     } catch(e) {
         res.status(500).json({
             "status": false,
