@@ -9,7 +9,7 @@ A website for Q/A centered at competitive programming (CP), where people can joi
 3. Q/A form
 4. Profile page display
 
-## Build with 
+## Built with 
 
 1. Reactjs
 2. Material UI
