@@ -8,26 +8,28 @@ import Icon from '@material-ui/core/Icon';
 import AnswersPanel from './AnswersPanel';
 import ResponsePanel from './ResponsePanel';
 
-const Question = (props) => {
-	const { questionId } = props;
+const Question = () => {
 	const [isQuestionAvailable, setIsQuestionAvailable] = useState(false);
 	const [question, setQuestion] = useState('');
 	const [currentTab, setCurrentTab] = useState(0);
     const [answers, setAnswers] = useState([]);
-
-	console.log(questionId);
+	const [questionId, setQuestionId] = useState('');
 
 	const handleChange = (e, newTab) => {
         setCurrentTab(() => newTab);
     };
 
 	useEffect(() => {
+		const address = window.location.href;
+		const addressParts = address.split('/');
+		const id = addressParts[addressParts.length - 1];
+		setQuestionId(() => id);
+
 		axios
-			.get(`user/question/${questionId}`, )
+			.get(window.location.href, )
 			.then((res) => {
 				setIsQuestionAvailable(() => true);
                 setQuestion(() => res.data.question.question);
-				console.log(res.data.question);
 				setAnswers(() => res.data.question.answersId);
 			})
 			.catch((e) => {
@@ -60,7 +62,7 @@ const Question = (props) => {
 				<Tab label="Answer it?" icon={<Icon className="fas fa-reply"/>}/>
 			</Tabs>
             <AnswersPanel currentTab={currentTab} index={0} answers={answers}/>
-            <ResponsePanel currentTab={currentTab} index={1}/>
+            <ResponsePanel currentTab={currentTab} index={1} questionId={questionId}/>
 		</Box>
 	);
 };

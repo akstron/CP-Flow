@@ -142,7 +142,6 @@ function RegistrationForm() {
 									<Grid item>
 										<input
 											accept="image/*"
-											
 											style={{ display: "none" }}
 											id="raised-button-file"
 											type="file"

@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const Question = require('../models/Question');
+const Answer = require('../models/Answer');
 
 router.post('/ask', ensureAuthenticated, async (req, res) => {
 
@@ -12,10 +13,12 @@ router.post('/ask', ensureAuthenticated, async (req, res) => {
         })
     
         await question.save();
+        req.user.questions.push(question._id);
+        await req.user.save();
     
         res.json({
-           "user": req.user,
-           "status": true 
+           "status": true, 
+           "msg": "Asked!" 
         })
     } catch(e) {
         res.status(500).json({
@@ -26,7 +29,16 @@ router.post('/ask', ensureAuthenticated, async (req, res) => {
 
 });
 
-router.get('/profile', ensureAuthenticated, (req, res) => {
+router.get('/profile', ensureAuthenticated, async (req, res) => {
+
+    await req.user.populate({
+        path: "questions"
+    }).execPopulate();
+
+    await req.user.populate({
+        path: "answers"
+    }).execPopulate();
+
     res.status(200).json({
         "user": req.user,
         "status": true,
@@ -34,13 +46,17 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
     });
 })
 
-router.get('/question/:questionId', /*ensureAuthenticated,*/ async (req, res) => {
+router.get('/question/:questionId', async (req, res) => {
 
     try{
         const question = await Question.findById(req.params.questionId);
 
         await question.populate({
             path: 'userId'
+        }).execPopulate();
+
+        await question.populate({
+            path: 'answersId'
         }).execPopulate();
 
         res.json({question: question});
@@ -50,7 +66,35 @@ router.get('/question/:questionId', /*ensureAuthenticated,*/ async (req, res) =>
             "msg": "Internal server error!"
         })
     }
-   
+})
+
+router.post('/answer', ensureAuthenticated, async (req, res) => {
+
+    try{
+        const answer = new Answer ({
+            answer: req.body.answer,
+            userId: req.user._id,
+            questionId: req.body.questionId
+        })
+
+        await answer.save();
+        req.user.answers.push(answer._id);
+        await req.user.save();
+
+        const question = await Question.findById(req.body.questionId);
+        question.answersId.push(answer._id);
+        await question.save();
+
+        res.status(201).json({
+            "status" : true, 
+        })
+
+    } catch(e) {
+        console.log(e);
+        res.json({
+            "status": false
+        })
+    }
 })
 
 module.exports = router;

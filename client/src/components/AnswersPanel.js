@@ -6,8 +6,6 @@ import {
 	Card,
 	CardContent,
 	CardHeader,
-	Collapse,
-	IconButton,
 } from "@material-ui/core";
 
 
@@ -16,9 +14,8 @@ const AnswersPanel = (props) => {
 
 	return (
 		<Box hidden={currentTab !== index} pt={4}>
-			{answers.map((answerObject, index) => {
+			{answers.map((answerObject) => {
 				const { _id, answer } = answerObject;
-				console.log(index);
 
 				return (
 					<Box my={2} key={_id}>

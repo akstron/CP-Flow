@@ -32,10 +32,12 @@ const userSchema = mongoose.Schema({
         minlength: 7,
     },
     questions: [{
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question'
     }],
     answers: [{
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Answer'
     }]
 }, {
     timestamps: true

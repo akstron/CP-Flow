@@ -15,8 +15,8 @@ function App() {
           At home
         </Route>
         <Route path='/ask'>
-          {/* <AskForm/> */}
-          <Question questionId={"605b87f8f7cffc3a6c09365b"}/>
+          <AskForm/>
+          {/* <Question questionId={"605b87f8f7cffc3a6c09365b"}/> */}
         </Route>
         <Route path='/profile'>
           <Profile/>
@@ -26,6 +26,9 @@ function App() {
         </Route>
         <Route path='/register'>
           <RegistrationForm/>
+        </Route>
+        <Route path='/user/question'>
+          <Question/>
         </Route>
       </Router>
   );
