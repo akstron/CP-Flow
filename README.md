@@ -14,6 +14,7 @@ A website for Q/A centered at competitive programming (CP), where people can joi
 1. Reactjs
 2. Material UI
 3. Passportjs
+4. Mongoose
 
 ## Goals
 
