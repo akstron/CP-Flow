@@ -7,7 +7,9 @@ import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Icon from "@material-ui/core/Icon";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Alert from "@material-ui/lab/Alert";
+import Collapse from "@material-ui/core/Collapse";
 
 const useStyles = makeStyles((theme) => ({
 	large: {
@@ -36,6 +38,9 @@ function RegistrationForm() {
 		password: "",
 		retypedPassword: "",
 	});
+	const [messages, setMessages] = useState([]);
+	const [open, setOpen] = useState(true);
+	const [result, setResult] = useState('error');
 
 	const handleChange = (e) => {
 		if (e.target.files) {
@@ -69,8 +74,24 @@ function RegistrationForm() {
 				},
 			});
 
-			console.log("done");
 			console.log(res);
+
+			if(res.data.status) {
+				setResult(() => "success");
+				setFormFields(() => { return {
+					userName: "",
+					fullName: "",
+					email: "",
+					password: "",
+					retypedPassword: "",
+				}});
+			}
+			else {
+				setResult(() => "error");
+			}
+		
+			setOpen(() => true);
+			setMessages(() => res.data.msgs);
 		} catch (e) {
 			console.log(e);
 		}
@@ -82,15 +103,31 @@ function RegistrationForm() {
 				<Grid item xs={3} />
 				<Grid item xs={6}>
 					<Box py={2} px={2} border={1} borderRadius={16}>
-						<Grid container direction="column" alignItems="center">
-							<Grid item>
-								<Icon className="fas fa-clipboard-check" fontSize="large"
-								style={{color: 'blue', fontSize: 60}} />
-							</Grid>
-							<Grid item>
-								<Typography variant="h4" gutterBottom>
+						<Grid container direction="column" >
+							<Grid container item justify="center">
+								<Typography variant="h5" gutterBottom>
+								<Icon
+									className="fas fa-clipboard-check"
+									style={{ color: "blue", fontSize: 25 }}
+								/>
 									Register
 								</Typography>
+							</Grid>
+							<Grid item>
+								{messages.map((message, index) => {
+									return (
+										<Collapse in={open} key={index}>
+											<Alert
+												severity={result}
+												onClose={() => {
+													setOpen(() => false);
+												}}
+											>
+												{message}
+											</Alert>
+										</Collapse>
+									);
+								})}
 							</Grid>
 							<Grid container item component="form" onSubmit={onSubmit}>
 								<Grid
@@ -105,7 +142,7 @@ function RegistrationForm() {
 									<Grid item>
 										<input
 											accept="image/*"
-											className={classes.input}
+											
 											style={{ display: "none" }}
 											id="raised-button-file"
 											type="file"

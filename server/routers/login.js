@@ -4,36 +4,42 @@ const router = new express.Router();
 
 router.post('/login' , (req, res, next) => {
     console.log('loginRouter')
+    const msgs = [];
 
     passport.authenticate('local', (err, user, info) => {
         if (err) { 
+            msgs.push("Sever error! Please try again");
             return res.status(500).json({
                 "status": false,
-                "msg": "Sever error! Please try again"
+                msgs
             })
         }
 
         if (!user) {
+            msgs.push("Email or password do not match");
             return res.json({
                 "status" : false, 
-                "msg": "Email not registered"
+                msgs
             }); 
         }
 
         req.logIn(user, (err) => {
           if (err) {
+              msgs.push("Server error! Please try again");
                return res.status(500).json({
                    "status": false,
-                   "msg": "Server error! Please try again"
+                   msgs
                }); 
             }
 
             console.log(req.user);
 
+            msgs.push("Logged in successfully!");
+
           return res.status(202).json({
                 "user": req.user,
                 "status": true,
-                "msg": "Logged in successfully!"              
+                msgs          
           })
         });
       })(req, res, next);

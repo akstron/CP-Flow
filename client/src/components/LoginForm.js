@@ -9,7 +9,8 @@ import axios from "axios";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import { Typography, Collapse } from "@material-ui/core";
+import Alert from '@material-ui/lab/Alert';
 
 const Spacing = (props) => {
 	return (
@@ -27,7 +28,9 @@ function LoginForm() {
 	});
 
 	const [isloggedIn, setIsLoggedIn] = useState(false);
-	const [redirectURL, setRedirectURL] = useState("/something");
+	const [redirectURL, setRedirectURL] = useState("/");
+	const [messages, setMessages] = useState([]);
+	const [open, setOpen] = useState(false);
 
 	const handleChange = (e) => {
 		const name = e.target.name;
@@ -44,12 +47,14 @@ function LoginForm() {
 				password: formFields.password,
 			});
 
-			const { status, msg } = res.data;
+			const { status, msgs } = res.data;
 			console.log(res.data);
 			if (status) {
 				setRedirectURL("/profile");
 				setIsLoggedIn(true);
 			} else {
+				setMessages(() => msgs);
+				setOpen(() => true);
 				console.log(res);
 			}
 		} catch (e) {
@@ -79,20 +84,37 @@ function LoginForm() {
 								item
 								direction="column"
 								xs={12}
-								alignItems="center"
+							
 							>
-								<Grid item>
+								<Grid container item justify="center">
 									<Avatar style={{backgroundColor: 'orange'}}>
 										<LockIcon  fontSize="large" />
 									</Avatar>
 								</Grid>
-								<Grid item>
+								<Grid container item justify="center">
 									<Typography>
 										Sign In
 									</Typography>
 								</Grid>
+								<Grid item>
+									{messages.map((message, index) => {
+										return (
+											<Collapse in={open} key={index}>
+												<Alert
+													severity={'error'}
+													onClose={() => {
+														setOpen(() => false);
+													}}
+												>
+													{message}
+												</Alert>
+											</Collapse>
+										);
+									})}
+								</Grid>
 							</Grid>
 							<Spacing space={1}/>
+							
 							<Grid item xs={12}>
 								<Input
 									label={"Email"}

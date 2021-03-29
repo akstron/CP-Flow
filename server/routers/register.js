@@ -4,6 +4,8 @@ const path = require('path');
 const User = require('../models/user')
 const router = new express.Router();
 
+/*Setting up multer*/
+
 const storage = multer.diskStorage({
     destination: './uploads/',
     filename: function(req, file, cb){
@@ -33,32 +35,52 @@ function checkFileType(file, cb){
   }).single('file');
 
 router.post('/register', upload, async (req, res) => {
-   
-    try{
-        const {userName, fullName, email, password, retypedPassword} = req.body;
 
-        console.log(req.body);
+  const msgs = []; 
 
-        if(password === retypedPassword){
-            const user = new User({
-                userName, fullName, email, password
-            })
-           
-            await user.save();
-            console.log('Saved');
-            res.status(201).json({
-                "status": "registered"
-            })
-        } 
-        else{
-            res.status(400).json({
-                "error" : "password do not match"
-            })
-        }
+  try{
+      const {userName, fullName, email, password, retypedPassword} = req.body;
+      
+      if(!userName || !fullName || !email || !password || !retypedPassword){
+        msgs.push('Fields not completed!');
 
-    } catch(e) {
-        res.status(400).send(e)
-    }
+        return res.json({
+          "status": false,
+          msgs
+        })
+      }
+
+      if(password === retypedPassword){
+          const user = new User({
+              userName, fullName, email, password
+          })
+          
+          await user.save();
+
+          msgs.push("Registration Completed")
+        
+          res.status(201).json({
+              "status": true,
+              msgs
+          })
+      } 
+      else{
+          msgs.push("Password do not match!");
+
+          res.json({
+              "status": false,
+              msgs
+          })
+      }
+
+  } catch(e) {
+      msgs.push("Credentials already exist!");
+      
+      res.json({
+        "status": false,
+        msgs
+      })
+  }
 })
 
 module.exports = router;

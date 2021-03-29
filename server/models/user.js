@@ -31,6 +31,12 @@ const userSchema = mongoose.Schema({
         trim: true,
         minlength: 7,
     },
+    questions: [{
+        type: mongoose.Schema.Types.ObjectId
+    }],
+    answers: [{
+        type: mongoose.Schema.Types.ObjectId
+    }]
 }, {
     timestamps: true
 })
