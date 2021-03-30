@@ -29,7 +29,7 @@ const Spacing = (props) => {
 function RegistrationForm() {
 	const classes = useStyles();
 
-	const [file, setFile] = useState("");
+	const [file, setFile] = useState(null);
 	const [fileURL, setFileURL] = useState("");
 	const [formFields, setFormFields] = useState({
 		userName: "",
@@ -85,6 +85,8 @@ function RegistrationForm() {
 					password: "",
 					retypedPassword: "",
 				}});
+				setFileURL(() => "");
+				setFile(() => null);
 			}
 			else {
 				setResult(() => "error");
@@ -152,7 +154,6 @@ function RegistrationForm() {
 											<Button component="span">
 												<Avatar
 													className={classes.large}
-													type="file"
 													src={fileURL}
 												>
 													A

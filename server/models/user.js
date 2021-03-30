@@ -38,7 +38,10 @@ const userSchema = mongoose.Schema({
     answers: [{
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Answer'
-    }]
+    }], 
+    profilePicture: {
+        type: String, 
+    }
 }, {
     timestamps: true
 })

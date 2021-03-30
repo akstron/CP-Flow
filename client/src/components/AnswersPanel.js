@@ -15,7 +15,7 @@ const AnswersPanel = (props) => {
 	return (
 		<Box hidden={currentTab !== index} pt={4}>
 			{answers.map((answerObject) => {
-				const { _id, answer } = answerObject;
+				const { _id, answer, userId } = answerObject;
 
 				return (
 					<Box my={2} key={_id}>
@@ -23,7 +23,7 @@ const AnswersPanel = (props) => {
 							<CardHeader
 								avatar={<Avatar>A</Avatar>}
 								title="Answered by:"
-								subheader="someone"
+								subheader={userId.userName}
 							/>
 							<CardContent>
 								<Typography variant="body2">{answer}</Typography>

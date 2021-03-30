@@ -32,8 +32,6 @@ router.post('/login' , (req, res, next) => {
                }); 
             }
 
-            console.log(req.user);
-
             msgs.push("Logged in successfully!");
 
           return res.status(202).json({

@@ -3,13 +3,13 @@ const multer = require('multer');
 const path = require('path');
 const User = require('../models/user')
 const router = new express.Router();
-
-/*Setting up multer*/
+const fs = require('fs');
+const { v4 } = require('uuid');
 
 const storage = multer.diskStorage({
-    destination: './uploads/',
+    destination: '../client/public/uploads/',
     filename: function(req, file, cb){
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+      cb(null, v4() + path.extname(file.originalname));
     }
 });
 
@@ -31,18 +31,21 @@ function checkFileType(file, cb){
     limits:{fileSize: 1000000},
     fileFilter: function(req, file, cb){
       checkFileType(file, cb);
-    }
+    }, 
   }).single('file');
 
 router.post('/register', upload, async (req, res) => {
 
   const msgs = []; 
+  console.log(req.file);
 
   try{
       const {userName, fullName, email, password, retypedPassword} = req.body;
       
       if(!userName || !fullName || !email || !password || !retypedPassword){
         msgs.push('Fields not completed!');
+
+        deleteProfilePicture(req.file);
 
         return res.json({
           "status": false,
@@ -51,11 +54,16 @@ router.post('/register', upload, async (req, res) => {
       }
 
       if(password === retypedPassword){
+        var absolutePath = "";
+        if(req.file) absolutePath = `/uploads/${req.file.filename}`;
           const user = new User({
-              userName, fullName, email, password
+              userName, fullName, email, password, 
+              profilePicture: absolutePath
           })
           
           await user.save();
+
+          console.log(user);
 
           msgs.push("Registration Completed")
         
@@ -66,6 +74,7 @@ router.post('/register', upload, async (req, res) => {
       } 
       else{
           msgs.push("Password do not match!");
+          deleteProfilePicture(req.file);
 
           res.json({
               "status": false,
@@ -75,12 +84,18 @@ router.post('/register', upload, async (req, res) => {
 
   } catch(e) {
       msgs.push("Credentials already exist!");
-      
+      console.log(e);
+
       res.json({
         "status": false,
         msgs
       })
   }
 })
+
+const deleteProfilePicture = (file) => {
+  if(!file) return;
+  fs.unlinkSync(file.path);
+}
 
 module.exports = router;
