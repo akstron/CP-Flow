@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import { useHistory } from 'react-router-dom';
 import {
 	Avatar,
 	Card,
@@ -11,6 +12,11 @@ import {
 
 const AnswersPanel = (props) => {
 	const { currentTab, index, answers } = props;
+	const history = useHistory();
+
+	const handleClick = (id) => {
+		history.push(`/user/answer/${id}`);
+	}
 
 	return (
 		<Box hidden={currentTab !== index} pt={4}>
@@ -18,7 +24,7 @@ const AnswersPanel = (props) => {
 				const { _id, answer, userId } = answerObject;
 
 				return (
-					<Box my={2} key={_id}>
+					<Box my={2} key={_id} onClick={() => handleClick(_id)}>
 						<Card>
 							<CardHeader
 								avatar={<Avatar>A</Avatar>}

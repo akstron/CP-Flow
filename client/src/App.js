@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
 import AskForm from './components/AskForm';
 import Question from './components/Question';
+import Answer from './components/Answer';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
         </Route>
         <Route path='/user/question'>
           <Question/>
+        </Route>
+        <Route path='/user/answer'>
+          <Answer/>
         </Route>
       </Router>
   );

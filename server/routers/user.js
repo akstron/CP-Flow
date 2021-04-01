@@ -59,10 +59,25 @@ router.get('/question/:questionId', async (req, res) => {
             path: 'answersId'
         }).execPopulate();
 
-        res.json({question: question});
+        res.json({question});
     } catch(e) {
         res.status(500).json({
             "status": false,
+            "msg": "Internal server error!"
+        })
+    }
+})
+
+router.get('/answer/:answerId', async (req, res) => {
+    
+    try{    
+        const answer = await Answer.findById(req.params.answerId);
+
+        res.status(200).json({answer});
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            "status": false, 
             "msg": "Internal server error!"
         })
     }

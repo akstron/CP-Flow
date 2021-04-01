@@ -14,17 +14,17 @@ const QuestionsPanel = (props) => {
 	const history = useHistory();
 	const { currentTab, index, questions } = props;
 
-	const onClick = (index) => {
-		history.push(`/user/question/${questions[index]._id}`);
+	const onClick = (id) => {
+		history.push(`/user/question/${id}`);
 	}
 
 	return (
 		<Box hidden={currentTab !== index} pt={4}>
-			{questions.map((questionObject, index) => {
+			{questions.map((questionObject) => {
 				const { _id, question } = questionObject;
 
 				return (
-					<Box my={2} key={_id} onClick={() => onClick(index)}>
+					<Box my={2} key={_id} onClick={() => onClick(_id)}>
 						<Card>
 							<CardHeader
 								avatar={<Avatar>A</Avatar>}
