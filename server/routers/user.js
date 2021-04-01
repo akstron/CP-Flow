@@ -112,4 +112,10 @@ router.post('/answer', ensureAuthenticated, async (req, res) => {
     }
 })
 
+router.patch('/question/like', (req, res) => {
+
+    console.log(req.body);
+    res.send();
+})
+
 module.exports = router;

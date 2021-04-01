@@ -14,6 +14,10 @@ const questionSchema = mongoose.Schema({
     answersId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Answer'
+    }],
+    likedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }]
 }, {
     timestamps: true
