@@ -3,9 +3,14 @@ const router = new express.Router();
 const { ensureAuthenticated } = require('../config/auth');
 const Question = require('../models/Question');
 const Answer = require('../models/Answer');
+const User = require('../models/user');
+const upload = require('../config/multer');
+const fs = require('fs');
+const path = require('path');
 
 router.get('/isLoggedIn', ensureAuthenticated, (req, res) => {
     res.status(202).json({
+        user: req.user,
         status: true,
         msg: "authorized"
     })
@@ -52,6 +57,29 @@ router.get('/profile', ensureAuthenticated, async (req, res) => {
         "msg": "User found successfully!"
     });
 })
+
+router.patch('/edit', upload, ensureAuthenticated, async (req, res) => {
+    
+    try{
+        const previousProfilePicture = req.user.profilePicture;
+        if(req.file) {
+            const absolutePath = `/uploads/${req.file.filename}`;
+            req.body.profilePicture = absolutePath; 
+        }
+
+        await User.findByIdAndUpdate(req.user._id, req.body);
+
+        fs.unlinkSync(path.join(__dirname, '../../client/public' , previousProfilePicture));
+
+        res.status(200).json({
+            status: true, 
+            msg: "Updated!"
+        })
+    } catch(e) {
+        console.log(e);
+        res.status(500).send();
+    }
+});
 
 router.get('/question/:questionId', async (req, res) => {
 

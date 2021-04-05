@@ -10,6 +10,8 @@ import Icon from "@material-ui/core/Icon";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@material-ui/lab/Alert";
 import Collapse from "@material-ui/core/Collapse";
+import Loading from './Loading';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	large: {
@@ -25,17 +27,15 @@ const Spacing = (props) => {
 		</Grid>
 	);
 };
-
-const RegistrationForm = () => {
-	const classes = useStyles();
-	let title = 'Register';
+const EditForm = () => {
+    const history = useHistory();
+    const classes = useStyles();
+	let title = 'Edit';
 	
 	const details = {
 		userName: "",
 		fullName: "",
 		email: "",
-		password: "",
-		retypedPassword: "",
 	};
 
 	const [file, setFile] = useState(null);
@@ -44,7 +44,8 @@ const RegistrationForm = () => {
 	const [messages, setMessages] = useState([]);
 	const [open, setOpen] = useState(true);
 	const [result, setResult] = useState('error');
-	
+    const [isLoading, setIsLoading] = useState(true);
+
 	const handleChange = (e) => {
 		if (e.target.files) {
 			if (e.target.files.length > 0) {
@@ -58,6 +59,22 @@ const RegistrationForm = () => {
 		setFormFields({ ...formFields, [name]: value });
 	};
 
+    useEffect(() => {
+        axios.get('/user/isLoggedIn').then((res) => {
+            const {data: {user: {userName, fullName, email, profilePicture}}} = res; 
+            setFormFields({
+                userName,
+                fullName,
+                email
+            });
+            setFileURL(() => profilePicture);
+            setIsLoading(() => false);
+        }).catch((e) => {
+            console.log(e);
+        })
+
+    }, [])
+
 	const onSubmit = async (e) => {
 		e.preventDefault();
 
@@ -67,11 +84,9 @@ const RegistrationForm = () => {
 		formData.append("userName", formFields.userName);
 		formData.append("fullName", formFields.fullName);
 		formData.append("email", formFields.email);
-		formData.append("password", formFields.password);
-		formData.append("retypedPassword", formFields.retypedPassword);
-
+	
 		try {
-			const res = await axios.post("/register", formData, {
+			const res = await axios.patch("/user/edit", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
@@ -81,15 +96,7 @@ const RegistrationForm = () => {
 
 			if(res.data.status) {
 				setResult(() => "success");
-				setFormFields(() => { return {
-					userName: "",
-					fullName: "",
-					email: "",
-					password: "",
-					retypedPassword: "",
-				}});
-				setFileURL(() => "");
-				setFile(() => null);
+                history.push('/user/profile');
 			}
 			else {
 				setResult(() => "error");
@@ -101,6 +108,10 @@ const RegistrationForm = () => {
 			console.log(e);
 		}
 	};
+
+    if(isLoading){
+        return <Loading/>
+    }
 
 	return (
 		<Box pt={6}>
@@ -166,8 +177,8 @@ const RegistrationForm = () => {
 									</Grid>
 									<Spacing space={3} />
 									<Grid item>
-										<Button variant="contained" color="primary" type="submit">
-											Submit
+										<Button variant="contained" style={{backgroundColor: 'lightGreen'}} type="submit">
+											Save
 										</Button>
 									</Grid>
 								</Grid>
@@ -202,26 +213,6 @@ const RegistrationForm = () => {
 											handleChange={handleChange}
 										/>
 									</Grid>
-									<Grid item xs={12}>
-										<Input
-											label={"Password"}
-											type={"password"}
-											py={1}
-											name={"password"}
-											value={formFields.password}
-											handleChange={handleChange}
-										/>
-									</Grid>
-									<Grid item xs={12}>
-										<Input
-											label={"Retype password"}
-											type={"password"}
-											py={1}
-											name={"retypedPassword"}
-											value={formFields.retypedPassword}
-											handleChange={handleChange}
-										/>
-									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
@@ -233,4 +224,4 @@ const RegistrationForm = () => {
 	);
 }
 
-export default RegistrationForm;
+export default EditForm

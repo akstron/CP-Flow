@@ -50,7 +50,7 @@ function LoginForm() {
 			const { status, msgs } = res.data;
 			console.log(res.data);
 			if (status) {
-				setRedirectURL("/profile");
+				setRedirectURL("/user/profile");
 				setIsLoggedIn(true);
 			} else {
 				setMessages(() => msgs);

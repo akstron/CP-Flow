@@ -12,10 +12,10 @@ import {
 import QuestionsPanel from "./QuestionsPanel";
 import AnswersPanel from "./AnswersPanel";
 import { makeStyles } from "@material-ui/core/styles";
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
-import { Redirect } from 'react-router-dom';
-import Loading from './Loading';
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
+import { Redirect, Link } from "react-router-dom";
+import Loading from "./Loading";
 
 const useStyles = makeStyles((theme) => ({
 	large: {
@@ -37,7 +37,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		axios
-			.get("user/profile")
+			.get("/user/profile")
 			.then((res) => {
 				console.log(res);
 				console.log(res.data);
@@ -48,7 +48,7 @@ const Profile = () => {
 					setQuestions(() => res.data.user.questions);
 					setProfilPictureURL(() => res.data.user.profilePicture);
 					setIsLoggedIn(() => true);
-				} 
+				}
 
 				setIsLoading(() => false);
 			})
@@ -60,13 +60,11 @@ const Profile = () => {
 	};
 
 	if (isLoading) {
-		return (
-				<Loading/>
-		);
+		return <Loading />;
 	}
 
-	if(!isLoggedIn){
-		return <Redirect to={'/login'}/>
+	if (!isLoggedIn) {
+		return <Redirect to={"/login"} />;
 	}
 
 	return (
@@ -77,11 +75,11 @@ const Profile = () => {
 						A
 					</Avatar>
 					<Grid container item justify="flex-end">
-					<Box mr={7}>
-					<IconButton>
-						<EditIcon color="primary"/>
-					</IconButton>
-					</Box>
+						<Box mr={7}>
+							<IconButton component={Link} to='/user/edit'>
+								<EditIcon color="primary" />
+							</IconButton>
+						</Box>
 					</Grid>
 					<Typography variant="h5">{user.userName}</Typography>
 					<Typography variant="h6">Questions: {questions.length}</Typography>

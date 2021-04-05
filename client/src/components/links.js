@@ -13,7 +13,7 @@ export const links = [
     },
     {
         'id': 3,
-        'link': '/profile',
+        'link': '/user/profile',
         'name':'Profile',
         'icon': 'fas fa-id-card'
     },

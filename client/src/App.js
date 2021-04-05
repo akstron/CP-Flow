@@ -7,6 +7,7 @@ import Profile from './components/Profile';
 import AskForm from './components/AskForm';
 import Question from './components/Question';
 import Answer from './components/Answer';
+import EditForm from './components/EditForm'
 
 function App() {
   return (
@@ -19,8 +20,11 @@ function App() {
           <AskForm/>
           {/* <Question questionId={"605b87f8f7cffc3a6c09365b"}/> */}
         </Route>
-        <Route path='/profile'>
+        <Route path='/user/profile'>
           <Profile/>
+        </Route>
+        <Route path='/user/edit'>
+          <EditForm/>
         </Route>
         <Route path='/login'>
           <LoginForm/>

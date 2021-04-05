@@ -1,38 +1,8 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
 const User = require('../models/user')
 const router = new express.Router();
 const fs = require('fs');
-const { v4 } = require('uuid');
-
-const storage = multer.diskStorage({
-    destination: '../client/public/uploads/',
-    filename: function(req, file, cb){
-      cb(null, v4() + path.extname(file.originalname));
-    }
-});
-
-function checkFileType(file, cb){
-
-    const filetypes = /jpeg|jpg|png|gif/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
-  
-    if(mimetype && extname){
-      return cb(null,true);
-    } else {
-      cb('Error: Images Only!');
-    }
-  }
-
-  const upload = multer({
-    storage: storage,
-    limits:{fileSize: 1000000},
-    fileFilter: function(req, file, cb){
-      checkFileType(file, cb);
-    }, 
-  }).single('file');
+const upload = require('../config/multer');
 
 router.post('/register', upload, async (req, res) => {
 
