@@ -59,7 +59,17 @@ router.get('/question/:questionId', async (req, res) => {
             path: 'answersId'
         }).execPopulate();
 
-        res.json({question});
+        let isLiked = false;
+
+        if(req.user !== undefined){
+            if(question.likedBy.find((userId) => {
+                return (userId).toString() === (req.user._id).toString();
+            })){
+                isLiked = true;
+            }
+        }
+
+        res.json({question, isLiked});
     } catch(e) {
         res.status(500).json({
             "status": false,
@@ -73,7 +83,17 @@ router.get('/answer/:answerId', async (req, res) => {
     try{    
         const answer = await Answer.findById(req.params.answerId);
 
-        res.status(200).json({answer});
+        let isLiked = false;
+
+        if(req.user !== undefined){
+            if(answer.likedBy.find((userId) => {
+                return (userId).toString() === (req.user._id).toString();
+            })){
+                isLiked = true;
+            }
+        }
+
+        res.status(200).json({answer, isLiked});
     } catch (e) {
         console.log(e);
         res.status(500).json({
@@ -112,10 +132,65 @@ router.post('/answer', ensureAuthenticated, async (req, res) => {
     }
 })
 
-router.patch('/question/like', (req, res) => {
+router.patch('/question/like', ensureAuthenticated, async (req, res) => {
 
-    console.log(req.body);
-    res.send();
+    try{
+        const question = await Question.findById(req.body.questionId);
+
+        if(req.body.option === "increment"){
+            question.likedBy.push(req.user._id);
+            await question.save();
+        } 
+        else {
+            const newLikedBy = question.likedBy.filter((userId) => {
+                return (userId).toString() !== (req.user._id).toString();
+            })
+
+            question.likedBy = newLikedBy;
+            await question.save();
+        }
+
+        res.status(200).json({
+            question
+        })
+
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
+            "status": false
+        })
+    }
+})
+
+
+router.patch('/answer/like', ensureAuthenticated, async (req, res) => {
+
+    try{
+        const answer = await Answer.findById(req.body.answerId);
+
+        if(req.body.option === "increment"){
+            answer.likedBy.push(req.user._id);
+            await answer.save();
+        } 
+        else {
+            const newLikedBy = answer.likedBy.filter((userId) => {
+                return (userId).toString() !== (req.user._id).toString();
+            })
+
+            answer.likedBy = newLikedBy;
+            await answer.save();
+        }
+
+        res.status(200).json({
+            answer
+        })
+
+    } catch(e) {
+        console.log(e);
+        res.status(500).json({
+            "status": false
+        })
+    }
 })
 
 module.exports = router;

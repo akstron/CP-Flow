@@ -10,14 +10,6 @@ import ResponsePanel from "./ResponsePanel";
 import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 
-const updateLike = async (option, questionId) => {
-	try{
-	const res = await axios.patch('/user/question/like', { option, questionId});
-	console.log(res);
-	} catch (e) {
-		console.log(e);
-	}
-}
 
 const Question = () => {
 	const [isQuestionAvailable, setIsQuestionAvailable] = useState(false);
@@ -38,7 +30,15 @@ const Question = () => {
 		else{
 			updateLike("increment", questionId);
 		}
+	}
+
+	const updateLike = async (option, questionId) => {
+		try{
+		const res = await axios.patch('/user/question/like', { option, questionId});
 		setIsLiked((isLiked) => !isLiked);
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	useEffect(() => {
@@ -50,9 +50,11 @@ const Question = () => {
 		axios
 			.get(window.location.href)
 			.then((res) => {
+				setIsLiked(() => res.data.isLiked);
 				setIsQuestionAvailable(() => true);
 				setQuestion(() => res.data.question.question);
 				setAnswers(() => res.data.question.answersId);
+				console.log(res.data);
 			})
 			.catch((e) => {
 				console.log(e);
