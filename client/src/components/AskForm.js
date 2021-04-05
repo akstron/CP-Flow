@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -6,9 +6,24 @@ import Button from "@material-ui/core/Button";
 import { Icon } from "@material-ui/core";
 import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import Loading from './Loading';
 
 const AskForm = () => {
 	const [question, setQuestion] = useState("");
+	const [isLoading, setIsLoading] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	useEffect(() => {
+		axios.get('/user/isLoggedIn').then((res) => {
+			if(res.data.status){
+				setIsLoggedIn(() => true);
+			}
+			setIsLoading(() => false);
+		}).catch((e) => {
+			console.log(e);
+		})
+	}, [])
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -17,6 +32,7 @@ const AskForm = () => {
 			const res = await axios.post('user/ask', {
 				question
 			})
+			setQuestion('');
 
 			console.log(res);
 			console.log("submitted");
@@ -30,6 +46,14 @@ const AskForm = () => {
 		const value = e.target.value;
 		setQuestion(() => value);
 	};
+
+	if(isLoading){
+		return <Loading/>
+	}
+
+	if(!isLoggedIn){
+		return <Redirect to={'/login'}/>
+	}
 
 	return (
 		<Box px={4} py={4} component="form" onSubmit={onSubmit}>

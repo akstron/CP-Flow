@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { NavLink } from 'react-router-dom';
 import { links } from "./links";
-import { Icon } from "@material-ui/core";
+import { Box, Icon } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	hover: {
@@ -21,12 +21,14 @@ const Navbar = () => {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.root}>
+		<div>
 			<AppBar position="sticky">
 				<Toolbar>
-					<Typography color="inherit" variant="h6" align="center">
-						CP-Flow
-					</Typography>
+					<Box mx={2}>
+						<Typography color="inherit" variant="h6" align="center">
+							CP Flow
+						</Typography>
+					</Box>
 					<Grid container justify="space-around">
 						{links.map((linkItem) => {
 							const { id, link, icon } = linkItem;

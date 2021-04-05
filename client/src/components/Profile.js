@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Container from "@material-ui/core/Container";
 import axios from "axios";
 import {
 	Avatar,
@@ -15,6 +14,8 @@ import AnswersPanel from "./AnswersPanel";
 import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
+import { Redirect } from 'react-router-dom';
+import Loading from './Loading';
 
 const useStyles = makeStyles((theme) => ({
 	large: {
@@ -32,6 +33,7 @@ const Profile = () => {
 	const [questions, setQuestions] = useState([]);
 	const [answers, setAnswers] = useState([]);
 	const [profilePictureURL, setProfilPictureURL] = useState("");
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -45,8 +47,10 @@ const Profile = () => {
 					setAnswers(() => res.data.user.answers);
 					setQuestions(() => res.data.user.questions);
 					setProfilPictureURL(() => res.data.user.profilePicture);
-					setIsLoading(() => false);
-				}
+					setIsLoggedIn(() => true);
+				} 
+
+				setIsLoading(() => false);
 			})
 			.catch((e) => console.log(e));
 	}, []);
@@ -57,10 +61,12 @@ const Profile = () => {
 
 	if (isLoading) {
 		return (
-			<Container>
-				<h3>Loading...</h3>
-			</Container>
+				<Loading/>
 		);
+	}
+
+	if(!isLoggedIn){
+		return <Redirect to={'/login'}/>
 	}
 
 	return (

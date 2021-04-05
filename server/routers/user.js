@@ -4,6 +4,13 @@ const { ensureAuthenticated } = require('../config/auth');
 const Question = require('../models/Question');
 const Answer = require('../models/Answer');
 
+router.get('/isLoggedIn', ensureAuthenticated, (req, res) => {
+    res.status(202).json({
+        status: true,
+        msg: "authorized"
+    })
+})
+
 router.post('/ask', ensureAuthenticated, async (req, res) => {
 
     try{
