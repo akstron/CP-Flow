@@ -7,9 +7,8 @@ A website for Q/A centered at competitive programming (CP), where people can joi
 1. User authentication
 2. Client side routing
 3. Q/A form
-4. Profile page display
-5. Like feature
-6. Protected routes
+4. Like feature
+5. Protected routes
 
 ## Built with 
 
