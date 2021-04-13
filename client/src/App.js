@@ -9,7 +9,6 @@ import Question from './components/Question';
 import Answer from './components/Answer';
 import EditForm from './components/EditForm';
 import Home from './components/Home';
-// import RegistrationForm2 from './components/RegistrationForm2';
 
 function App() {
   return (
