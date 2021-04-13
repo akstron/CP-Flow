@@ -7,18 +7,19 @@ import Profile from './components/Profile';
 import AskForm from './components/AskForm';
 import Question from './components/Question';
 import Answer from './components/Answer';
-import EditForm from './components/EditForm'
+import EditForm from './components/EditForm';
+import Home from './components/Home';
+// import RegistrationForm2 from './components/RegistrationForm2';
 
 function App() {
   return (
     <Router>
       <Navbar/>
       <Route exact path='/'>
-          At home
+          <Home/>
         </Route>
         <Route path='/ask'>
           <AskForm/>
-          {/* <Question questionId={"605b87f8f7cffc3a6c09365b"}/> */}
         </Route>
         <Route path='/user/profile'>
           <Profile/>

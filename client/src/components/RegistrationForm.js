@@ -4,32 +4,15 @@ import Input from "./controls/Input";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Icon from "@material-ui/core/Icon";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@material-ui/lab/Alert";
 import Collapse from "@material-ui/core/Collapse";
-
-const useStyles = makeStyles((theme) => ({
-	large: {
-		width: theme.spacing(15),
-		height: theme.spacing(15),
-	},
-}));
-
-const Spacing = (props) => {
-	return (
-		<Grid item>
-			<Box py={props.space} />
-		</Grid>
-	);
-};
+import registerImage from "../images/register.png";
 
 const RegistrationForm = () => {
-	const classes = useStyles();
-	let title = 'Register';
-	
+
 	const details = {
 		userName: "",
 		fullName: "",
@@ -43,8 +26,8 @@ const RegistrationForm = () => {
 	const [formFields, setFormFields] = useState(details);
 	const [messages, setMessages] = useState([]);
 	const [open, setOpen] = useState(true);
-	const [result, setResult] = useState('error');
-	
+	const [result, setResult] = useState("error");
+
 	const handleChange = (e) => {
 		if (e.target.files) {
 			if (e.target.files.length > 0) {
@@ -59,6 +42,7 @@ const RegistrationForm = () => {
 	};
 
 	const onSubmit = async (e) => {
+		console.log('something');
 		e.preventDefault();
 
 		const formData = new FormData();
@@ -79,46 +63,59 @@ const RegistrationForm = () => {
 
 			console.log(res);
 
-			if(res.data.status) {
+			if (res.data.status) {
 				setResult(() => "success");
-				setFormFields(() => { return {
-					userName: "",
-					fullName: "",
-					email: "",
-					password: "",
-					retypedPassword: "",
-				}});
+				setFormFields(() => {
+					return {
+						userName: "",
+						fullName: "",
+						email: "",
+						password: "",
+						retypedPassword: "",
+					};
+				});
 				setFileURL(() => "");
 				setFile(() => null);
-			}
-			else {
+			} else {
 				setResult(() => "error");
 			}
-		
+
 			setOpen(() => true);
 			setMessages(() => res.data.msgs);
 		} catch (e) {
 			console.log(e);
+			setResult(() => "error");
+			setMessages(() => ['Something went wrong! Try again']);
+			setOpen(() => true);
 		}
 	};
 
 	return (
 		<Box pt={6}>
 			<Grid container>
-				<Grid item xs={3} />
-				<Grid item xs={6}>
-					<Box py={2} px={2} border={1} borderRadius={16}>
-						<Grid container direction="column" >
-							<Grid container item justify="center">
+				<Grid item xs={2} />
+				<Grid item xs={8}>
+					<Box
+						my={2}
+						mx={2}
+						py={2}
+						px={2}
+						borderRadius={16}
+						style={{
+							boxShadow: "0 0 20px 0 rgba(0, 0, 0, 0.25)",
+						}}
+					>
+						<Grid container>
+							<Grid container item justify="center" xs={12}>
 								<Typography variant="h5" gutterBottom>
-								<Icon
-									className="fas fa-clipboard-check"
-									style={{ color: "blue", fontSize: 25 }}
-								/>
-									{title}
+									<Icon
+										className="fas fa-clipboard-check"
+										style={{ color: "#3CB371", fontSize: "1.75rem" }}
+									/>
+									Register
 								</Typography>
 							</Grid>
-							<Grid item>
+							<Grid item xs={12}>
 								{messages.map((message, index) => {
 									return (
 										<Collapse in={open} key={index}>
@@ -134,44 +131,42 @@ const RegistrationForm = () => {
 									);
 								})}
 							</Grid>
-							<Grid container item component="form" onSubmit={onSubmit}>
+							<Grid
+								item
+								xs={12}
+								md={7}
+								style={{
+									paddingTop: 20,
+									paddingRight: 20,
+									paddingLeft: 20,
+								}}
+							>
 								<Grid
-									item
 									container
-									sm={12}
-									md={4}
-									direction="column"
-									justify="center"
-									alignItems="center"
+									item
+									justify="space-between"
+									style={{ height: "100%" }}
+									conponent="form"
 								>
-									<Grid item>
+									<Grid container item justify="center" xs={12}>
 										<input
 											accept="image/*"
-											style={{ display: "none" }}
-											id="raised-button-file"
+											id="imput-profile-pic"
 											type="file"
 											hidden
 											onChange={handleChange}
 										/>
-										<label htmlFor="raised-button-file">
+										<label htmlFor="imput-profile-pic">
 											<Button component="span">
 												<Avatar
-													className={classes.large}
 													src={fileURL}
+													style={{ width: "100px", height: "100px", backgroundColor: '#6B8E23'}}
 												>
-													A
+													{formFields.userName?formFields.userName[0]:'N'}
 												</Avatar>
 											</Button>
 										</label>
 									</Grid>
-									<Spacing space={3} />
-									<Grid item>
-										<Button variant="contained" color="primary" type="submit">
-											Submit
-										</Button>
-									</Grid>
-								</Grid>
-								<Grid container item direction="column" sm={12} md={8}>
 									<Grid item xs={12}>
 										<Input
 											label={"Username"}
@@ -222,15 +217,28 @@ const RegistrationForm = () => {
 											handleChange={handleChange}
 										/>
 									</Grid>
+									<Grid
+										container
+										item
+										justify="center"
+										style={{ paddingTop: 10 }}
+									>
+										<Button variant="contained" style={{backgroundColor: '#98FB98'}} onClick={onSubmit}>
+											Submit
+										</Button>
+									</Grid>
 								</Grid>
+							</Grid>
+							<Grid item xs={false} md={5}>
+								<img src={registerImage} style={{ width: "100%" }} />
 							</Grid>
 						</Grid>
 					</Box>
 				</Grid>
-				<Grid item xs={3} />
+				<Grid item xs={2} />
 			</Grid>
 		</Box>
 	);
-}
+};
 
 export default RegistrationForm;
