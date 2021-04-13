@@ -21,7 +21,7 @@ const QuestionsPanel = (props) => {
 	return (
 		<Box hidden={currentTab !== index} pt={4}>
 			{questions.map((questionObject) => {
-				const { _id, question } = questionObject;
+				const { _id, question, askedBy } = questionObject;
 
 				return (
 					<Box my={2} key={_id} onClick={() => onClick(_id)}>
@@ -29,7 +29,7 @@ const QuestionsPanel = (props) => {
 							<CardHeader
 								avatar={<Avatar>A</Avatar>}
 								title="Asked by:"
-								subheader="someone"
+								subheader={askedBy}
 							/>
 							<CardContent>
 								<Typography variant="body2">{question}</Typography>

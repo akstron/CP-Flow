@@ -5,6 +5,7 @@ require('./config/mongoose')
 const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
 const userRouter = require('./routers/user');
+const questionRouter = require('./routers/question');
 const session = require('express-session');
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use('/', loginRouter);
 app.use('/', registerRouter);
 app.use('/user', userRouter);
+app.use('/', questionRouter);
 
 
 app.listen(port, () => console.log(`Server Started at port ${port}`));

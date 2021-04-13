@@ -18,7 +18,7 @@ A website for Q/A centered at competitive programming (CP), where people can joi
 3. Passportjs
 4. Mongoose
 5. Multer
-6. React-router-dom (for routing)
+6. React-router-dom
 
 ## Goals
 

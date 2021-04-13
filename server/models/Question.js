@@ -11,6 +11,10 @@ const questionSchema = mongoose.Schema({
         require: true,
         trim: true
     },
+    askedBy: {
+        type: String,
+        require: true,
+    },
     answersId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Answer'

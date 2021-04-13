@@ -21,7 +21,8 @@ router.post('/ask', ensureAuthenticated, async (req, res) => {
     try{
         const question = new Question({
             userId: req.user._id,
-            question: req.body.question
+            question: req.body.question,
+            askedBy: req.user.userName
         })
     
         await question.save();
@@ -144,7 +145,8 @@ router.post('/answer', ensureAuthenticated, async (req, res) => {
         const answer = new Answer ({
             answer: req.body.answer,
             userId: req.user._id,
-            questionId: req.body.questionId
+            questionId: req.body.questionId,
+            answeredBy: req.user.userName
         })
 
         await answer.save();
